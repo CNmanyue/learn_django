@@ -1,0 +1,14 @@
+<!-- 如果在模板中使用 extends ，必须保证其为模板中的第一个模板标记。 否则，模板继承将不起作用。 -->
+{% extends "base.html" %}
+
+{% block title %}The current time{% endblock %}
+
+{% block content %}
+<p>It is now {{ current_date }}.</p>
+{% endblock %}
+
+<!-- 如果你需要访问父模板中的块的内容，使用 block.super 这个标签吧，这一个魔法变量将会表现出父模板中的内容。 如果只想在上级代码块基础上添加内容，而不是全部重载，该变量就显得非常有用了。 -->
+{% block footer %}
+<span style="color:red">test block.super!</span>
+{{block.super}}
+{% endblock %}
