@@ -1,0 +1,247 @@
+【前言】
+	1.没有模板的方案：HTML被硬编码在python代码中
+	'''def current_time(request):
+		now = datetime.datetime.now()
+		html = "<html><body>It is now %s.</body></html>" % now
+    	return HttpResponse(html)
+    '''
+
+一、【模板系统的基础知识】
+
+定义：
+模板是一个文本，用于分离文档的表现形式和内容。模板定义了占位符和各种用于规范文档该如何显示的各部分基本逻辑（模板标签）。模板通常用于产生html，但django的模板也能产生任何基于文本格式的文档。
+
+{{}}	=变量
+{%%}	=模板标签：通知模板系统完成某些工作的标签
+{% if is_ok %}
+	//没有elif标签,在else中嵌入一层if
+{%else%}
+	{%if is_ok_2 %}
+
+	{%endif%}
+{% endif %}
+
+二、【如何使用模板系统】
+1.用原始的模板代码字符串创建一个Template对象，Django同样支持指定模板文件路径的方式来创建Template对象
+
+2.调用模板对象的render方法，并且传入一套变量context。它将返回一个基于模板的展现字符串，模板中的变量和标签会被context值替换掉
+>>> from django import template
+>>> t = template.Template('My name is {{ name }}.')
+>>> c = template.Context({'name': 'Adrian'})
+>>> print t.render(c)
+My name is Adrian.
+>>> c = template.Context({'name': 'Fred'})
+>>> print t.render(c)
+My name is Fred.
+
+创建模板对象：
+1.Template类位于 django.template模块中，构造函数接收一个参数，原始模板代码。
+>>> from django.template import Template
+>>> t = Template('My name is {{ name }}.')
+
+2.当创建一个Template对象，模板系统在内部编译这个模板内部格式，并做好优化，做好render准备。如果模板语法错误，那么调用Template()时就会抛出TemplateSyntaxError异常：
+>>> from django.template import Template
+>>> t = Template('{% notatag %}')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+  ...
+django.template.TemplateSyntaxError: Invalid block tag: 'notatag'
+
+3.常见的异常情形：
+*无效的tags
+*标签参数无效
+*无效的过滤器
+*过滤器的参数无效
+*无效的模板语法
+*未封闭的块标签（针对需要封闭的块标签）
+
+模板渲染（render）：
+1.context在django里表现为Context类，在django.template模块里。构造函数带有一个可选参数：一个字典
+2.调用Template对象的render()函数并传递context来渲染模板
+>>> from django.template import Context, Template
+>>> t = Template('My name is {{ name }}.')
+>>> c = Context({'name': 'Stephane'})
+>>> t.render(c)
+u'My name is Stephane.'
+
+使用django模板系统小结：
+	写模板-》创建Template对象-》创建Context-》调用render函数
+
+三、【神奇的.】
+注：当模板系统在变量名中遇到dot时，查找顺序同下，采用第一个找到的有效类型
+1.访问字典的值
+>>> from django.template import Template, Context
+>>> person = {'name': 'Sally', 'age': '43'}
+>>> t = Template('{{ person.name }} is {{ person.age }} years old.')
+>>> c = Context({'person': person})
+>>> t.render(c)
+u'Sally is 43 years old.'
+
+2.访问对象的属性
+>>> from django.template import Template, Context
+>>> import datetime
+>>> d = datetime.date(1993, 5, 2)
+>>> t = Template('The month is {{ date.month }} and the year is {{ date.year }}.')
+>>> c = Context({'date': d})
+>>> t.render(c)
+u'The month is 5 and the year is 1993.'
+
+3.引用对象的方法
+注：不需要括号，只能引用无参函数
+>>> from django.template import Template, Context
+>>> t = Template('{{ var }} -- {{ var.upper }} -- {{ var.isdigit }}')
+>>> t.render(Context({'var': 'hello'}))
+u'hello -- HELLO -- False'
+>>> t.render(Context({'var': '123'}))
+u'123 -- 123 -- True'
+
+4.访问列表索引
+注：不允许使用负数列表，例如{{items.-1}}
+>>> from django.template import Template, Context
+>>> t = Template('Item 2 is {{ items.2 }}.')
+>>> c = Context({'items': ['apples', 'bananas', 'carrots']})
+>>> t.render(c)
+u'Item 2 is carrots.'
+
+四、【基本的模板标签和过滤器】
+标签：
+1.if/else
+注：在Python和django模板系统中，以下对象相当于false
+*[]
+*()
+*{}
+*''
+*0
+*None
+*False
+1.1接受and，or，not
+注：不支持用圆括号来组合比较操作，同一个if标签中只能出现and和or中的一个
+1.2没有elif标签
+1.3一定要用endif关闭每一个if
+
+2.for
+
+3.ifequal/ifnotequal
+
+4.include
+注：双引号、单引号都可以
+{% include 'nav.html' %}
+{% include "nav.html" %}
+
+注释：
+1.单行注释：{# This is a comment #}
+2.多行注释：
+{% comment %}
+This is a
+multi-line comment.
+{% endcomment %}
+
+过滤器：
+定义：过滤器使用管道符|表示
+>>>{{ name|lower }}
+//显示的内容是变量 {{ name }} 被过滤器lower处理后的结果，它功能是转换文本为小写。
+
+1.过滤管道可以被套接，即一个过滤器管道的输出可以作为下一个管道的输入
+>>>{{ my_list|first|upper }}
+
+2.带参过滤器
+注：参数跟随冒号之后，并且用双引号包含
+>>>{{ bio|truncatewords:"30" }}
+//这个将显示变量 bio 的前30个词。
+
+
+五、【理念与局限】
+
+六、【在视图中使用模板】
+进化：
+1.在视图函数中硬编码，写Template
+注：依然没有实现数据与表现的分离
+from django.template import Template, Context
+from django.http import HttpResponse
+import datetime
+
+def current_datetime(request):
+    now = datetime.datetime.now()
+    t = Template("<html><body>It is now {{ current_date }}.</body></html>")
+    html = t.render(Context({'current_date': now}))
+    return HttpResponse(html)
+
+2.单独领出Template写一个文件
+注：每次加载Template都需要open()、fp.read()、fp.close()
+from django.template import Template, Context
+from django.http import HttpResponse
+import datetime
+
+def current_datetime(request):
+    now = datetime.datetime.now()
+    # Simple way of using templates from the filesystem.
+    # This is BAD because it doesn't account for missing files!
+    fp = open('/home/djangouser/templates/mytemplate.html')
+    t = Template(fp.read())
+    fp.close()
+    html = t.render(Context({'current_date': now}))
+    return HttpResponse(html)
+
+七、【模板加载】
+1.setting.py中设置TEMPLATE
+2.python内部变量__file__，值为代码所在的python模板文件名，os.path.dirname()获取指定文件的位置，os.path.join方法将这个目录与templates连接，在window下，会选择正确的后向斜杠\，所以最后用replace将\替换成/（DIRS的值只接受正向斜杠/）。
+>>>os.path.join(os.path.dirname(__file__), 'templates').replace('\\','/'),
+
+3.在视图函数中使用get_template获取模板
+from django.template.loader import get_template
+from django.template import Context
+from django.http import HttpResponse
+import datetime
+
+def current_datetime(request):
+    now = datetime.datetime.now()
+    t = get_template('current_datetime.html')
+    html = t.render(Context({'current_date': now}))
+    return HttpResponse(html)
+
+4.进一步优化，使用render_to_response()
+from django.shortcuts import render_to_response
+import datetime
+
+def current_datetime(request):
+    now = datetime.datetime.now()
+    return render_to_response('current_datetime.html', {'current_date': now})
+
+5.进一步优化，使用locals()
+注：它返回的字典对所有局部变量的名称与值进行映射
+def current_datetime(request):
+    current_date = datetime.datetime.now()
+    return render_to_response('current_datetime.html', locals())
+
+ 八、【模板继承】
+ 注：
+ *{% block lable_name %}{% lable_name %}
+ *子模板中用block替代父模板中block的内容
+ *使用{{block.super}}获取父模板某个block的内容
+ *{% extends %} 对所传入模板名称使用的加载方法和 get_template() 相同
+ 
+ 1.定义基础模板base.html
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <h1>My helpful timestamp site</h1>
+    {% block content %}{% endblock %}
+    {% block footer %}
+    <hr>
+    <p>Thanks for visiting my site.</p>
+    {% endblock %}
+</body>
+</html>
+
+2.继承（current_time.html）
+{% extends "base.html" %}
+
+{% block title %}Future time{% endblock %}
+
+{% block content %}
+<p>In {{ hour_offset }} hour(s), it will be {{ next_time }}.</p>
+{% endblock %}
+
