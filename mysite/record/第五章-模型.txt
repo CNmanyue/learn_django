@@ -1,5 +1,4 @@
-第五章-模型
+支持python 3.5 的mysql适配器
+第三方类库:PyMysql
+https://pypi.python.org/pypi/PyMySQL#downloads
 
-练习一下pull是什么情况
-
-现在是在dev分支下工作，提交一个版本
