@@ -19,7 +19,7 @@ from django.contrib import admin
 from mysite.views import *
 
 urlpatterns = [
-    url(r'^admin/$', admin.site.urls),
+    # url(r'^admin/', admin.site.urls),
     url(r'^hello/$',hello),
     url(r'^time/$',current_datetime),
     url(r'^time/plus/(?P<offset>(\d)|(1\d)|(2[0-4]))/$',hours_ahead),

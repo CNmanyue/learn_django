@@ -1,0 +1,54 @@
+一、sublime菜单简介【常用功能及快捷键】
+【Edit菜单】
+1、line行操作快捷键
+ctrl+] 增加缩进
+ctrl+[ 减小缩进
+ctrl+shift+D 复制当前行
+ctrl+shift+D 复制当前行
+ctrl+shift+D 复制当前行
+
+ctrl+shift+K 删除当前行
+ctrl+shift+↑ 当前行与上行交换位置（也可以选中多行上下移动位置）
+ctrl+shift+↓ 当前行与下行交换位置
+
+2、comment注释功能
+ctrl+/ 注释当前行
+ctrl+shift+/ 选中多行（块）进行注释
+
+3、text文本操作
+ctrl+shift+enter在当前行前插入一行
+
+ctrl+enter在当前行后插入一行
+ctrl+Delete 删除光标后的一个单词（以单词为单位向后删除）
+ctrl+Backspace 删除光标前的一个单词（以单词为单位向前）
+(普通的delete和Backspace对字母操作）
+
+ctrl+shift+K 删除当前行
+ctrl+K,ctrl+K 删除至end
+ctrl+T 逐个单词向前移位
+
+【select菜单】
+首先将光标移至要编辑的行
+1、ctrl+L快速选中当前行
+2、ctrl+D快速选中光标所在单词word
+
+【Find菜单】
+ctrl+F 查找
+
+【view菜单】
+side Bar
+1、ctrl+K,ctrl+B view or hide sidebar
+
+【Goto菜单】
+1、Goto Anything非常好用的功能，快捷键ctrl+P
+2、[:num当前文件不同行之间跳转(类vi)]
+3、输入路径、文件名，跳转到指定文件
+
+【Tools菜单】
+命令模式，此为sublime特有功能，快捷键ctrl+shift+P
+【preferences菜单】
+sublime的设置
+settings-Default，默认设置，json格式，可以修改
+settings-User，可以从Default中复制选项定制用户自己的显示效果
+字体大小可以通过：ctrl+滚动鼠标变大变小
+Color Scheme 颜色模式，默认是Monokai模式，比如夜晚可用Solarized(Dark)模式

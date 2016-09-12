@@ -1,1 +1,11 @@
+# 日志
+
 *.log.*
+
+# 数据库
+
+*.sqlite3
+
+__pycache__/
+
+migrations/

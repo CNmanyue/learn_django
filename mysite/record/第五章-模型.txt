@@ -1,4 +1,95 @@
 支持python 3.5 的mysql适配器
-第三方类库:PyMysql
-https://pypi.python.org/pypi/PyMySQL#downloads
+第三方类库:PyMysql>>https://pypi.python.org/pypi/PyMySQL#downloads
+
+检查数据库配置
+>>> from django.db import connection
+>>> cursor = connection.cursor()
+
+模型：
+每个数据模型都是django.db.models.Model的子类。
+Model包含了所有必要的数据库交互的方法，并提供了一个简洁漂亮的定义数据库字段的语法。
+
+
+
+===================================================================================
+第五章（模型）总结
+
+一、【软件架构模式：MVC和MTV】
+1.MVC：
+	M-数据存取部分，由django数据库底层处理，本章的内容
+	V-选择显示那些数据要显示以及怎样显示的部分，由视图和模板处理
+	C-根据用户输入委派视图的部分，由django框架根据URLconf设置，对给定URL调用适当函数。
+
+2.MTV：
+	M-模型（Model），即数据存储层。该层处理与数据相关的所有事物：如何存取、如何验证有效性、包含哪些行为以及数据之间的关系等
+	T-模板（Template），即表现层。该层处理与表现相关的决定：如何在页面或其他类型文档中进行显示。
+	V-视图（View），即业务逻辑层。该层包含存取模型以及调取恰当模板的相关逻辑。可以看做模型与模板之间的桥梁。
+
+二、【数据库配置】
+ENGINE – Either 
+	'django.db.backends.sqlite3', 
+	'django.db.backends.postgresql', 
+	'django.db.backends.mysql', 
+	'django.db.backends.oracle'
+NAME - 数据库名称
+USER
+PASSWORD
+HOST - ip:port
+
+三、【Projects vs. apps】
+1.app:An app is a Web application that does something -e.g.,a Weblog syetem,a database of public records or a simple poll app.
+注：e.g.(=exempli gratia)
+
+2.project:A project is a collection of configuration and apps for a particular website.
+
+3.relationship:A project can contain multiple apps.An app can be in multiple projects.
+
+四、【创建一个app】
+1.创建app
+>>>python manage.py startapp polls
+polls/
+    __init__.py
+    admin.py
+    apps.py
+    migrations/
+        __init__.py
+    models.py
+    tests.py
+    views.py
+
+2.定义models
+from django.db import models
+
+
+class Question(models.Model):
+    question_text = models.CharField(max_length=200)
+    pub_date = models.DateTimeField('date published')
+
+
+class Choice(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    choice_text = models.CharField(max_length=200)
+    votes = models.IntegerField(default=0)
+
+#Model:https://docs.djangoproject.com/en/1.10/ref/models/instances/#django.db.models.Model
+
+#Field:https://docs.djangoproject.com/en/1.10/ref/models/fields/#django.db.models.Field
+
+3.安装app
+settings.py > INSTALLED_APPS > 'polls'
+
+4.创建model的映射，并通过映射创建库表
+$check：检查这个django工程的问题
+$makemigrations：基于当前的models创建新的migrate文件
+$sqlmigrate：显示sql
+$migrate：执行sql
+$flush：清空数据，留下空表
+makemigrations: 基于当前的model创建新的迁移策略文件
+sqlmigrate: 显示迁移的SQL语句
+migrate: 用于执行迁移动作
+flush：清空数据，留下
+
+5.插入，查询，过滤，排序，更新，删除，复写__str__()，etc
+p1 = Question(question_text='live or die?')
+p1.save()
 

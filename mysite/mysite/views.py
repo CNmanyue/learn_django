@@ -25,3 +25,8 @@ def hours_ahead(request,offset):
 	current_section = "include->nav.html"
 	print(">>>>>locals:",locals())
 	return render_to_response('hours_ahead.html',locals())
+
+def book_list(request):
+	books = Book.objects.order_by('name')
+	return render_to_response('book_list.html',{'books':books})
+	
