@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}图书列表{% endblock %}
+
+{% block head %}<h3>图书列表</h3>{% endblock %}
+{% block content %}
+<table border="1">
+	<thead>
+		<td>标题</td>
+		<td>作者</td>
+		<td>出版商</td>
+		<td>出版时间</td>
+	</thead>
+	{% for book in books %}
+	<tr>
+		<td>{{book.title}}</td>
+		<td>
+			{% if book.authors %}
+				<span>未知</span>
+			{% else %}
+				{{book.authors}}
+			{% endif %}
+		</td>
+		<td>{{book.publisher}}</td>
+		<td>{{book.publication_date}}</td>
+	</tr>
+	{% endfor %}
+</table>
+{% endblock %}
