@@ -16,13 +16,43 @@
 		<td>{{book.title}}</td>
 		<td>
 			{% if book.authors %}
-				<span>未知</span>
+				<span>
+					{% for a in book.authors.all %}
+						{{ a.first_name}}&nbsp;{{ a.last_name }}
+						{% if not forloop.last %}
+							,
+						{% endif %}
+					{% endfor %}
+				</span>
 			{% else %}
 				{{book.authors}}
 			{% endif %}
 		</td>
 		<td>{{book.publisher}}</td>
 		<td>{{book.publication_date}}</td>
+	</tr>
+	{% endfor %}
+</table>
+<hr/>
+<h3>header信息</h3>
+<table border="1">
+	<thead>
+		<td>序号</td>
+		<td>属性名称</td>
+		<td>属性值</td>
+	</thead>
+
+	{% for k,v in header_dv %}
+	<tr>
+		<td>
+			{{ forloop.counter }}
+		</td>
+		<td>
+			{{ k }}
+		</td>
+		<td>
+			{{ v }}
+		</td>
 	</tr>
 	{% endfor %}
 </table>

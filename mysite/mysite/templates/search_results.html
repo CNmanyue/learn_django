@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}搜索结果{% endblock %}
+
+{% block head %}<h3>搜索结果</h3>{% endblock %}
+
+{% block content %}
+
+	{% if books %}
+	<!-- 注意这里pluralize的使用，这个过滤器在适当的时候会输出s（例如找到多本书籍）。 -->
+		<p>Found {{ books|length}} book{{ books|pluralize}}. </p>
+	<table border="1">
+		<thead>
+			<td>id</td>
+			<td>标题</td>
+			<td>作者</td>
+			<td>出版商</td>
+			<td>出版时间</td>
+		</thead>
+		{% for book in books %}
+		<tr>
+			<td>{{book.id}}</td>
+			<td>{{book.title}}</td>
+			<td>
+				{% if book.authors %}
+					<span>
+					<!-- book的authors是一个set -->
+						{% for a in book.authors.all %}
+						<!-- forloop.counter 记录当前是第几个元素 -->
+							{% if forloop.counter < 3 %}
+								{{ a.first_name}}&nbsp;{{ a.last_name }}
+								<!-- forloop.last 返回boolean值，表示是否是最后一个 -->
+								{% if not forloop.last and forloop.counter < 2 %},{% endif %}
+							{% endif %}
+						{% endfor %}
+					</span>
+				{% else %}
+					{{book.authors}}
+				{% endif %}
+			</td>
+			<td>{{book.publisher}}</td>
+			<td>{{book.publication_date}}</td>
+		</tr>
+		{% endfor %}
+
+	</table>
+	{% endif %}
+{% endblock %}

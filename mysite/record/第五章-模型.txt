@@ -90,6 +90,7 @@ migrate: 用于执行迁移动作
 flush：清空数据，留下
 
 5.插入，查询，过滤，排序，更新，删除，复写__str__()，etc
+from polls.models import Question
 p1 = Question(question_text='live or die?')
 p1.save()
 

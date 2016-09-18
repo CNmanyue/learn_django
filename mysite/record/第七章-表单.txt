@@ -1,0 +1,34 @@
+一、【从request对象中获取数据】
+
+1.URL相关信息
+#除域名以外的请求路径，以正斜杠开头
+$request.path
+
+#主机名|域名
+$request.get_host()
+
+#请求路径，可能包含查询字符串
+$request.get_full_path()
+
+#如果通过https访问，则返回True
+$request.is_secure
+
+2.request的其他信息
+#一个Python字典，包含了所有本次HTTP请求的Header信息
+#注意，因为 request.META 是一个普通的Python字典，因此当你试图访问一个不存在的键时，会触发一个KeyError异常。（HTTPheader信息是由用户的浏览器所提交的、不应该给予信任的“额外”数据，因此你总是应该好好设计你的应用以便当一个特定的Header数据不存在时，给出一个优雅的回应。）你应该用 try/except 语句，或者用Python字典的 get() 方法来处理这些“可能不存在的键”。
+$request.META
+
+3.提交的数据信息
+#返回类字典对象，包含了用户所提交的信息
+$request.GET
+$request.POST
+
+4.什么是[3.]提到的类字典对象
+相同：行为像python中标准的字典对象，但技术底层并不是dict。比如request.GET&request.POST都有get()\keys()\values()方法，可以用for k in request.GET
+
+区别：这些类字典对象中有一些普通dict没有的方法：未完……
+
+二、【一个简单的表单处理示例】
+
+
+
