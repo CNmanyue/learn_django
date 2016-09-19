@@ -12,8 +12,8 @@ def book_home(request):
 
 	return render_to_response('book_home.html',{'books':books,'header_dv':header_dv,'meta':meta })
 	
-def search_form(request):
-	return render_to_response('search_form.html')
+# def search_form(request):
+# 	return render_to_response('search_form.html')
 
 def search_do(request):
 	params = request.GET
@@ -22,9 +22,8 @@ def search_do(request):
 
 	q = params.get('q')
 	if(q!=None):
+		print("q:"+q)
 		books = Book.objects.filter(title__icontains=q)
 		return render_to_response('search_results.html',{'books':books,'query':q})
-		message = 'You searched for: %r' % params['q']
 	else:
-		message = 'You submitted an empty form.'
-	return HttpResponse(message)
+		return render_to_response('search_form.html',{'error':True})

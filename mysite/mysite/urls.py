@@ -26,6 +26,6 @@ urlpatterns = [
     url(r'^time/$',current_datetime),
     url(r'^time/plus/(?P<offset>(\d)|(1\d)|(2[0-4]))/$',hours_ahead),
     url(r'^books/$',book_home),
-    url(r'^books/search-form/$',search_form),
+    # url(r'^books/search-form/$',search_form),
     url(r'^books/search/$',search_do),
 ]

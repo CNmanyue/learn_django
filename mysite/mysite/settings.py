@@ -73,7 +73,7 @@ TEMPLATES = [
     {
         'NAME':'mysiteTemplates',
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS':[os.path.join(BASE_DIR, 'mysite/templates').replace('\\','/')],
+        'DIRS':[os.path.join(BASE_DIR, 'templates').replace('\\','/')],
     },
 ]
 

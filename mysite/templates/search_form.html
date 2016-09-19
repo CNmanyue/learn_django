@@ -4,7 +4,12 @@
 
 {% block head %}<h3>搜索图书</h3>{% endblock %}
 {% block content %}
-	<form action="/books/search/" method="get">
+	{% if error %}
+		<p style="color:red;">
+			Please submit a search term.
+		</p>
+	{% endif %}
+	<form action="" method="get">
         <input type="text" name="q">
         <input type="submit" value="Search">
     </form>

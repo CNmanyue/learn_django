@@ -29,6 +29,9 @@ $request.POST
 区别：这些类字典对象中有一些普通dict没有的方法：未完……
 
 二、【一个简单的表单处理示例】
+见:books/search-form/
 
+三、【简单的验证】
 
+四、【编写Contact】表单
 
