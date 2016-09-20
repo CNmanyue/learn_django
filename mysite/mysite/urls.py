@@ -18,6 +18,7 @@ from django.contrib import admin
 
 from mysite.views import *
 from books.views import *
+from contact.views import *
 # from books import views
 
 urlpatterns = [
@@ -28,4 +29,6 @@ urlpatterns = [
     url(r'^books/$',book_home),
     # url(r'^books/search-form/$',search_form),
     url(r'^books/search/$',search_do),
+    url(r'^contact/$',contact),
+    url(r'^contact/thanks/$',contact_thanks),
 ]

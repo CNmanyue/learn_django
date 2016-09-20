@@ -33,5 +33,58 @@ $request.POST
 
 三、【简单的验证】
 
-四、【编写Contact】表单
+四、【编写Contact表单】
 
+五、【第一个form】类
+django带有一个form库，称为django.forms，这个库可以处理HTML表单显示以及校验。
+[历史]
+在Django社区上会经常看到django.newforms这个词语。当人们讨论django.newforms，其实就是我们本章里面介绍的django.forms。12
+
+改名其实有历史原因的。 当Django一次向公众发行时，它有一个复杂难懂的表单系统：django.forms。后来它被完全重写了，新的版本改叫作：django.newforms，这样人们还可以通过名称，使用旧版本。 当Django 1.0发布时，旧版本django.forms就不再使用了，而django.newforms也终于可以名正言顺的叫做：django.forms。
+
+>>>
+from contact.forms import *
+c = ContactForm()
+# 默认按照table形式输出
+print(c)
+# 默认按照ul形式输出
+print(c.as_ul())
+# 默认按照p形式输出
+print(c.as_p)
+# 请注意，标签<table>、<ul>、<form>的开闭合标记没有包含于输出当中，这样你就可以添加额外的行或者自定义格式。
+>>> print f['subject']
+<input type="text" name="subject" id="id_subject" />
+>>> print f['message']
+<input type="text" name="message" id="id_message" />
+>>> f.is_valid()
+True
+>>> f.is_bound
+True
+>>> f.cleaned_data
+{message': uNice site!, email: uadrian@example.com, subject: uHello}
+
+>>> f = ContactForm({'subject': 'Hello', 'message': ''})
+>>> f.is_valid()
+False
+>>> f['message'].errors
+[u'This field is required.']
+
+六、【在视图中使用Form】
+Django的forms框架处理HTML显示、数据校验、数据清理和表单错误重现。
+
+ex1.改变字段显示
+message = forms.CharField(widget=forms.Textarea)
+
+ex2.设置最大长度、最小长度
+subject = forms.CharField(max_length=100,min_length=10)
+
+ex3.设置初始值
+form = ContactForm(
+            initial={'subject': 'I love your site!'}
+        )
+
+ex4.自定义校验规则
+
+ex5.指定标签
+
+ex6.定制Form设计

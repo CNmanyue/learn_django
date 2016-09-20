@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Contact US {% endblock %}
+
+{% block head %}<h3>联系我们</h3>{% endblock %}
+{% block content %}
+	
+	{% if form.errors %}
+		<p style="color:red;">
+			Please correct the error{{form.errors|pluralize}} below.
+		</p>
+	{% endif %}
+
+	<form action="" method="POST">
+		<table>
+			{{form.as_table}}
+		</table>
+		<input type="submit" name="submit" value="Submit">
+	</form>
+
+{% endblock %}

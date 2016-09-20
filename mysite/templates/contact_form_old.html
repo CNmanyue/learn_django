@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Contact US {% endblock %}
+
+{% block head %}<h3>联系我们</h3>{% endblock %}
+{% block content %}
+	
+	{% if errors %}
+		<ul>
+			{% for error in errors %}
+				<li>
+					{{ error }}
+				</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+
+	<form action="/contact/" method="post">
+		<p>Subject:<input type="text" name="subject" value="{{subject}}"></p>
+		<p>You e-mail(optional):<input type="text" name="email" value="{{email}}"></p>
+		<p>Message:<textarea name="message" rows="10" cols="50">{{message}}</textarea></p>
+		<input type="submit" name="Submit">
+	</form>
+{% endblock %}
