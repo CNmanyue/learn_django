@@ -1,0 +1,34 @@
+http://app.szzfgjj.com:7001/accountQuery
+
+params:{'accnum':accnum,'certinum':certinum,'qryflag':qryflag,'verify':verify}
+//0 - 社保电脑号和身份证号查询
+//1 - 个人公积金号和身份证号查询
+
+if(json.success){
+	document.all("balance").value = json["msg"];
+	document.all("newaccnum").value = json["newaccnum"];;
+	document.all("sbbalance").value = json["sbbalance"];
+	//document.all("addbanlace").value = (json["msg"] - json["sbbalance"]).toFixed(2);
+	var peraccstate = json["peraccstate"];
+	var cardstat = json["cardstat"];
+	if(peraccstate==0){
+		document.all("peraccstate").value = '正常';
+	}else if(peraccstate==1){
+		document.all("peraccstate").value = '封存';
+	}else if(peraccstate==8){
+		document.all("peraccstate").value = '销户未结算';
+	}else if(peraccstate==9){
+		if(cardstat==0){
+			document.all("peraccstate").value = '账户未生效-新账户';
+		}else if(cardstat==1){
+			document.all("peraccstate").value = '账户未生效-核查中';
+		}else if(cardstat==2){
+			document.all("peraccstate").value = '销户';
+		}else if(cardstat==3){
+			document.all("peraccstate").value = '账户未生效-核查失败';
+		}
+	}else{
+		document.all("peraccstate").value = '非正常';
+	}
+
+}
