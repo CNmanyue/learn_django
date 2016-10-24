@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}公积金查询 {% endblock %}
+
+{% block head %}<h3>公积金查询</h3>{% endblock %}
+{% block content %}
+	
+	{% if errors %}
+		<ul>
+			{% for error in errors %}
+				<li>
+					{{ error }}
+				</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+
+	<form action="/gjjcx/" method="post">
+		<p>公积金账号:<input type="text" name="accnum" value="{{accnum}}"></p>
+		<p>身份证号码:<input type="text" name="certinum" value="{{certinum}}"></p>
+		<p>验证码:<input type="text" name="verify" value="{{verify}}"></p>
+		<img src="http://app.szzfgjj.com:7001/pages/code.jsp" onclick="changv()" id="imgyzm">
+		<input type="submit" name="Submit">
+	</form>
+
+	<div>
+		<p>个人公积金账号:<input type="text" name="newaccnum" value="{{newaccnum}}" readonly="readonly"></p>
+		<p>状态:<input type="text" name="peraccstate" value="{{peraccstate}}" readonly="readonly"></p>
+		<p>账户余额:<input type="text" name="balance" value="{{balance}}" readonly="readonly">元</p>
+		<p>社保移交金额:<input type="text" name="sbbalance" value="{{sbbalance}}" readonly="readonly">元</p>
+	</div>
+<script type="text/javascript">
+function changv() {
+	document.getElementById("imgyzm").src = 'http://app.szzfgjj.com:7001/pages/code.jsp?yzm=' + new Date().getTime();
+}
+</script>
+{% endblock %}
+
+

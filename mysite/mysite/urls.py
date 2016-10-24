@@ -31,4 +31,5 @@ urlpatterns = [
     url(r'^books/search/$',search_do),
     url(r'^contact/$',contact),
     url(r'^contact/thanks/$',contact_thanks),
+    url(r'^gjjcx/$',gjjcx),
 ]
