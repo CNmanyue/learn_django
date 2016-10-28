@@ -6,6 +6,10 @@
 
 *.sqlite3
 
+#图片
+
+*.png
+
 __pycache__/
 
 migrations/
