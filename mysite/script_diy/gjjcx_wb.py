@@ -10,7 +10,7 @@
 
 import urllib3
 # import json
-# import os
+import os
 from datetime import datetime
 
 try:
@@ -23,15 +23,30 @@ print('gjjcx go >>>')
 http = urllib3.PoolManager()
 
 img_url = 'http://app.szzfgjj.com:7001/pages/code.jsp'
-img_dir = 'D:/pythonworkspace/gjjcx/verify/'
+# <<<<<<< HEAD
+# img_dir = 'D:/pythonworkspace/gjjcx/verify/'
+# time = datetime.now().timestamp() * 10000000
+# img_path_str = img_dir + time.__str__() + ".png"
+
+# # 获取验证码图片
+# r_img = http.request('GET', img_url)
+# f_img = open(img_path_str, 'wb')
+# f_img.write(r_img.data)
+# f_img.close()
+# =======
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+print('base_dir', BASE_DIR)
+img_dir = BASE_DIR + '\\verify\\'
 time = datetime.now().timestamp() * 10000000
 img_path_str = img_dir + time.__str__() + ".png"
 
 # 获取验证码图片
 r_img = http.request('GET', img_url)
-f_img = open(img_path_str, 'wb')
-f_img.write(r_img.data)
-f_img.close()
+with open(img_path_str, 'wb') as f_img:
+    f_img.write(r_img.data)
+# f_img = open(img_path_str,'wb')
+# f_img.write(r_img.data)
+# f_img.close()
 
 img_cookie = r_img.headers.get('Set-Cookie')
 print('获取验证码Cookie:', img_cookie)
