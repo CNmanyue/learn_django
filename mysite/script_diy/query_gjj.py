@@ -23,7 +23,8 @@ import sys
 print("startup query_gjj ...")
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-print('BASE_DIR：', BASE_DIR)
+# BASE_DIR = os.path.split(__file__)
+# sys.exit(0)
 
 verify_code_dir = os.path.join(BASE_DIR, 'verify')
 # time = datetime.now().timestamp() * 10000000
@@ -57,3 +58,5 @@ query_url = 'http://app.szzfgjj.com:7001/accountQuery'
 payload = {'accnum': accnum, 'certinum': certinum, 'qryflag': 1, 'verify': verify_code_num}
 r = requests.post(query_url, data=payload, cookies=dict(JSESSIONID=verify_code_cookie))
 print("结果：", r.content.decode('utf-8'))
+sys.exit(0)
+
