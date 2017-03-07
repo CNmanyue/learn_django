@@ -47,5 +47,5 @@ canshu = {'app_id': app_id, 'timestamp': timestr, 'msg_digest': msg_digest,
           'email': 'z201702211@fdd.com'}
 print('req data:', canshu)
 r = reqs.post('http://10.51.0.165:8888/api/syncPerson_auto.api', params=canshu)
-print("response:", r.text)
+# print("response:", r.text)
 print("r.content:", r.content.decode('utf-8'))
