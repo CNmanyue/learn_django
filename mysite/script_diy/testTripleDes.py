@@ -15,18 +15,16 @@ import pyDes
 # padmode -> Optional argument, set the padding mode (PAD_NORMAL or PAD_PKCS5)
 # 	   to use during all encrypt/decrypt operations done with this instance.
 
-data = "1234567890"
 
-k = pyDes.triple_des('zUy2Ag3mM9TLe3lm4oO0WK4J')
-d = k.encrypt(data=data.encode('ascii'),pad=None,padmode=pyDes.PAD_PKCS5)
-strd = d.hex().upper()
-print('encrypted:',strd)
+key = 'frJ0gfKGc0ui6CQSYh3ZRamK'
+data = 'my name is zhouxw'
+k = pyDes.triple_des(key,pad=None,padmode=pyDes.PAD_PKCS5)
+value = k.encrypt(data=bytes(data,'utf-8'))
+print('value:',	 value)
+print('value:', value.hex().upper())
+redata = k.decrypt(value)
+print('redata:', redata.decode())
 
-
-dd = k.decrypt(d)
-strdd =dd.decode('utf-8')
-print('decrypted:',strdd,'dd:',dd)
-
-with open('tripleDesData.txt','w') as f:
-	f.write(strdd)
-
+hexvalue = '9332FCE3E3678A7181176DCF249AF5F5D2A4E763480C0BBC7F78C5DEEFB6B7AD'
+value = k.decrypt(bytes.fromhex(hexvalue))
+print('解密值：', value.decode())
